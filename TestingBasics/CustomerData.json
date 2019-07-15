@@ -1,0 +1,20 @@
+{
+    "Name": "Customer Data",
+    "Columns": [
+        {
+            "Name": "FirstName",
+            "Type": "Name",
+            "SubType": "FirstName"
+        },
+        {
+            "Name": "LastName",
+            "Type": "Name",
+            "SubType": "LastName"
+        },
+        {
+            "Name": "Age",
+            "Type": "Random",
+            "SubType": "Number"
+        }
+   ]
+}
