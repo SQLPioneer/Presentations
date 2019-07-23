@@ -35,10 +35,12 @@ $Config = @{
     "Database"="FIFA"
     "Username"=$user
     "Password"=$mycred.GetNetworkCredential().Password
+    "Query"="SELECT @@ServerName AS ServerName"
 }
 
 # Use the Invoke-Sqlcmd to query a table in the database
 # Shows the command with all parameters filled out manually
+Invoke-Sqlcmd -ServerInstance $Config
 Invoke-Sqlcmd -ServerInstance "localhost,1401" -Database FIFA -Username sa -Password ******** -Query  "SELECT * FROM Players"
 # Show the command using the first set of variables
 Invoke-Sqlcmd -ServerInstance $ServerInstance -Database $Database -Username $Username -Password $Password -Query "SELECT * FROM Players"
