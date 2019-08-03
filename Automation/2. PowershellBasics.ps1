@@ -8,26 +8,22 @@ Edit $profile
 New-PSDrive -name Pres -PSProvider FileSystem -Root "C:\git\GitHub\Presentations"
 New-PSDrive -name Data -PSProvider FileSystem -Root "C:\Data"
 Set-Location Pres:
-cd Pres:
+Set-Location Pres:
 
 #     Import module used to create a security key and password file.
-"Pres:\SecurityHacks.psm1" | Import-Module
-#     (1) Create our key file
-# New-KeyFile -KeyFile c:\data\MyKey.key -KeySize 16
-#     (2) Create our password file
-# New-PasswordFile -PwdFile c:\data\MyPwd.txt -Key (Get-Content c:\data\MyKey.key)
+"Pres:\Helper.psm1" | Import-Module
 
-#     (3) Pull in the password to use
-$pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
- 
-# build the PSCredential object
-$mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+#     (1) Create our key file
+# New-KeyFile -KeyFile Data:\MyKey.key -KeySize 16
+#     (2) Create our password file
+# New-PasswordFile -PwdFile Data:\MyPwd.txt -Key (Get-Content Data:\MyKey.key)
+$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$password = $mycred.GetNetworkCredential().Password
  
 # Create variables to hole my SQLCMD parameters
 $ServerInstance="localhost,1401"
 $Database="FIFA"
 $Username=$user
-$Password=$mycred.GetNetworkCredential().Password
 
 # Create hash table to hold my configuration parameters 
 $Config = @{

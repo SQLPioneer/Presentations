@@ -3,27 +3,6 @@ docker start docs
 http://localhost:4000
 docker stop docs
 
-"Pres:\SecurityHacks.psm1" | Import-Module
-function Load-Config {
-    #     retrieve password from encrypted file
-    $pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
-    # build the PSCredential object
-    $mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
-    # Create hash table to hold my configuration parameters 
-    $Config1 = @{
-        "ServerInstance"="localhost,1401"
-        "Database"="demo"
-        "Username"=$user
-        "Password"=$mycred.GetNetworkCredential().Password
-        "ProdBackup"="c:\data\Backup\Prod"
-
-    }
-    $Config1
-}
-
-$Config = Load-Config
-
-$password = $mycred.GetNetworkCredential().Password
 
 # download SQL Server 2017 Developer Container
 docker pull microsoft/mssql-server-windows-developer:2017-CU1
@@ -35,11 +14,13 @@ function reset ($container) {
     docker rm $container
     switch ($container) {
         "Adv" {
-            del "C:\docker\$container\data\AdventureWorks2017.mdf"
-            del "C:\docker\$container\data\AdventureWorks2017_log.ldf"
+            Remove-Item "C:\docker\$container\data\AdventureWorks2017.mdf"
+            Remove-Item "C:\docker\$container\data\AdventureWorks2017_log.ldf"
         }
     }
 }
+
+docker exec -it aw_preprod powershell
 
 $password = $Config.password
 docker run -d -p 1401:1433 --name sql2 -e sa_password="$password" -e ACCEPT_EULA=Y -v C:/data/:C:/data/ microsoft/mssql-server-windows-developer
@@ -51,7 +32,7 @@ docker run -p 1401:1433 --name FIFA -e sa_password=$password -e ACCEPT_EULA=Y -v
 # -a STDOUT microsoft/mssql-server-windows-developer
 
 # Look at the databases on the server
-Invoke-Sqlcmd -ServerInstance "localhost,1401" -Database master -Username sa -Password $password -Query  "SELECT * FROM master.sys.databases" | select -ExpandProperty name
+Invoke-Sqlcmd -ServerInstance "localhost,1401" -Database master -Username sa -Password $password -Query  "SELECT * FROM master.sys.databases" | Select-Object -ExpandProperty name
 # Look at the tables in a database
 Invoke-Sqlcmd -ServerInstance "localhost,1401" -Database FIFA -Username sa -Password $password -Query  "SELECT * FROM INFORMATION_SCHEMA.tables" | Out-GridView
 
