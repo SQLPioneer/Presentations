@@ -30,7 +30,7 @@ $Config = @{
     "ServerInstance"="localhost,1401"
     "Database"="FIFA"
     "Username"=$user
-    "Password"=$mycred.GetNetworkCredential().Password
+    "Password"=$password
     "Query"="SELECT @@ServerName AS ServerName"
 }
 
