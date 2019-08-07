@@ -5,9 +5,12 @@
 Set-Alias -Name Edit -Value "notepad++.exe"
 Edit $profile
 
+Get-Command -Module dbatools -all | ogv
+Get-Command -Module dbatools -all | Get-Member
+Get-Command -Module dbatools -all | select name, CommandType, Verb, Noun | ogv
+
 New-PSDrive -name Pres -PSProvider FileSystem -Root "C:\git\GitHub\Presentations"
 New-PSDrive -name Data -PSProvider FileSystem -Root "C:\Data"
-Set-Location Pres:
 Set-Location Pres:
 
 #     Import module used to create a security key and password file.
