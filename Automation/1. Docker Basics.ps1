@@ -3,12 +3,30 @@ docker start docs
 http://localhost:4000
 docker stop docs
 
+"Pres:\Helper.psm1" | Import-Module
+$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$password = $mycred.GetNetworkCredential().Password
 
 # download SQL Server 2017 Developer Container
 docker pull microsoft/mssql-server-windows-developer:2017-CU1
 
 # Start the container mapping the port to 1401
-docker run -d -p 1401:1433 --name sql2 -e sa_password=$password -e ACCEPT_EULA=Y -v C:/data/:C:/data/ microsoft/mssql-server-windows-developer
+# p Ports
+# --name is container name
+# -- hostname can be used by external source instead of the port
+# -e 
+docker run -d `
+    -p 1402:1433 `
+    --name sql2 `
+    --hostname sql2 `
+    -e sa_password=$Password `
+    -e ACCEPT_EULA=Y `
+    -v C:/data/backup/:C:/backup/ `
+    -v C:/data/Scripts/:C:/scripts/ `
+    -v C:/docker/Adv/data/:C:/data/ `
+    -e attach_dbs="[{'dbName':'AdventureWorks','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\AdventureWorks2017_log.ldf']}]" `
+    microsoft/mssql-server-windows-developer
+
 function reset ($container) { 
     docker stop $Container
     docker rm $container
