@@ -38,3 +38,11 @@ Describe "Running SQL Tests on $EnvName for database $Database" {
     }
   }
 }
+
+".\RunTests.psm1" | Import-Module -Force
+Invoke-DatabaseTesting  `
+    -Server 'aw_dev' `
+    -Database 'AdventureWorks' `
+    -Credential $mycred `
+    -TestDirectory '.\AdventureWorks'  `
+    -Filter 'AdventureWorks database exists.1.sql'
