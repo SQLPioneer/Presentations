@@ -3,6 +3,8 @@ https://dbatools.io/commands/
 Import-Module dbatools
 "Pres:\Helper.psm1" | Import-Module
 
+Get-Command -Module DBAChecks | OGV
+
 $SqlCred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
 
 $ServerInstance = "localhost"
