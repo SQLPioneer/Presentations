@@ -1,4 +1,3 @@
-
 # https://powershellexplained.com/2017-01-13-powershell-variable-substitution-in-strings/?utm_source=blog&utm_medium=blog&utm_content=popref
 
 
@@ -39,7 +38,7 @@ $Config = @{
 
 # Use the Invoke-Sqlcmd to query a table in the database
 # Shows the command with all parameters filled out manually
-Invoke-Sqlcmd -ServerInstance $Config
+Invoke-Sqlcmd -ServerInstance @Config
 Invoke-Sqlcmd -ServerInstance "localhost,1401" -Database FIFA -Username sa -Password ******** -Query  "SELECT * FROM Players"
 # Show the command using the first set of variables
 Invoke-Sqlcmd -ServerInstance $ServerInstance -Database $Database -Username $Username -Password $Password -Query "SELECT * FROM Players"

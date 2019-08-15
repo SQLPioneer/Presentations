@@ -26,3 +26,4 @@ Start-Sleep -Seconds 30
 $configPath = ".\$HostName.DbcConfig.json"
 Import-DbcConfig -Path $configPath
 Invoke-DbcCheck -Tag InstanceConnection -SqlInstance $HostName -SqlCredential $mycred
+Invoke-DbcCheck -SqlInstance aw_server -Tags DatabaseExists -Database AdventureWorks -SqlCredential $mycred
