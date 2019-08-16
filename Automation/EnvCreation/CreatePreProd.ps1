@@ -55,14 +55,13 @@ $Check = @{
     "SqlCredential"=$mycred 
     "Tags"="InstanceConnection" 
 }
-Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource -Append
+Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource
 $Check = @{
     "SqlInstance"=$HostName 
     "SqlCredential"=$mycred 
     "Tags"="DatabaseExists" 
-    "Database"="AdventureWorks,FIFA"
 }
-Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource -Append
+Invoke-DbcCheck @Check -Database AdventureWorks,FIFA -PassThru | Update-DbcPowerBiDataSource -Append
 $Check = @{
     "SqlInstance"=$HostName 
     "SqlCredential"=$mycred 
