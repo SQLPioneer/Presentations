@@ -49,3 +49,5 @@ function reset ($container) {
 }
 
 reset sql2
+
+docker run -d --name aw_dev --hostname aw_dev aw_dev.image:demo.automation
