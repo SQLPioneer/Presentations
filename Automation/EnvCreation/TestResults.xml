@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2019-08-14" time="20:50:54">
+  <environment user="Adam Anderson" machine-name="LAPTOP-NQK5MKKK" cwd="C:\git\GitHub\Presentations\Automation\EnvCreation" user-domain="LAPTOP-NQK5MKKK" platform="Microsoft Windows 10 Pro|C:\WINDOWS|\Device\Harddisk0\Partition3" nunit-version="2.5.8.0" os-version="10.0.17134" clr-version="4.0.30319.42000" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.3494" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="C:\git\GitHub\Presentations\TestingBasics\AdventureWorks\AdventureWorks.tests.ps1" executed="True" result="Success" success="True" time="0.3494" asserts="0" description="C:\git\GitHub\Presentations\TestingBasics\AdventureWorks\AdventureWorks.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Running SQL Tests on aw_dev for database AdventureWorks" executed="True" result="Success" success="True" time="0.296" asserts="0" description="Running SQL Tests on aw_dev for database AdventureWorks">
+            <results>
+              <test-suite type="TestFixture" name="Pres:\TestingBasics\AdventureWorks\" executed="True" result="Success" success="True" time="0.2071" asserts="0" description="Pres:\TestingBasics\AdventureWorks\">
+                <results>
+                  <test-case description="AdventureWorks database exists" name="Running SQL Tests on aw_dev for database AdventureWorks.Pres:\TestingBasics\AdventureWorks\.AdventureWorks database exists" time="0.0118" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Test if HumanResources vEmployee is unique by BusinessEntityID" name="Running SQL Tests on aw_dev for database AdventureWorks.Pres:\TestingBasics\AdventureWorks\.Test if HumanResources vEmployee is unique by BusinessEntityID" time="0.0023" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Test if HumanResources vEmployeeDepartment is unique by BusinessEntityID" name="Running SQL Tests on aw_dev for database AdventureWorks.Pres:\TestingBasics\AdventureWorks\.Test if HumanResources vEmployeeDepartment is unique by BusinessEntityID" time="0.0058" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

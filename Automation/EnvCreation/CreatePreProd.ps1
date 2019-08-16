@@ -2,7 +2,7 @@ $Prod = "aw_server"
 $HostName = "aw_preprod"
 
 "Pres:\Helper.psm1" | Import-Module
-Write-Host "Starting $HostName" -BackgroundColor Blue
+Write-Host "$HostName" -BackgroundColor Blue
 $mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
 $password = $mycred.GetNetworkCredential().Password
 
@@ -44,7 +44,31 @@ Restore-DbaDatabase `
     -DestinationLogDirectory c:\data
     
 # Write-Host "Attached" -ForegroundColor Green
-Get-DbaDatabase -SqlInstance $HostName -ExcludeSystem -SqlCredential $mycred | select Name
+# Get-DbaDatabase -SqlInstance $HostName -ExcludeSystem -SqlCredential $mycred | select Name
 # Invoke-Sqlcmd -ServerInstance $HostName -Database master -Username sa -Password $password -Query  "SELECT * FROM master.sys.databases" | Select-Object -ExpandProperty name
-Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tag InstanceConnection 
-Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tags DatabaseExists -Database AdventureWorks,FIFA
+# Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tag InstanceConnection 
+# Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tags DatabaseExists -Database AdventureWorks,FIFA
+# Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tags Database -Database AdventureWorks,FIFA -ExcludeCheck Duplicateindex, RecoveryModel, LastDiffBackup, ValidDatabaseOwner,InvalidDatabaseOwner,LastGoodCheckDb, LastLogBackup
+# Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tags Database -ExcludeCheck Duplicateindex, RecoveryModel, LastDiffBackup, ValidDatabaseOwner,InvalidDatabaseOwner,LastGoodCheckDb, LastLogBackup
+$Check = @{
+    "SqlInstance"=$HostName 
+    "SqlCredential"=$mycred 
+    "Tags"="InstanceConnection" 
+}
+Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource -Append
+$Check = @{
+    "SqlInstance"=$HostName 
+    "SqlCredential"=$mycred 
+    "Tags"="DatabaseExists" 
+    "Database"="AdventureWorks,FIFA"
+}
+Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource -Append
+$Check = @{
+    "SqlInstance"=$HostName 
+    "SqlCredential"=$mycred 
+    "Tags"="Database" 
+    "ExcludeCheck"="Duplicateindex, RecoveryModel, LastDiffBackup, ValidDatabaseOwner,InvalidDatabaseOwner,LastGoodCheckDb, LastLogBackup"
+}
+
+Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource -Append
+

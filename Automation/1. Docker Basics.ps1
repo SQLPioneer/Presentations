@@ -50,4 +50,7 @@ function reset ($container) {
 
 reset sql2
 
-docker run -d --name aw_dev --hostname aw_dev aw_dev.image:demo.automation
+# Create container from existing image
+docker run -d -p 1425:1433 --name aw_dev --hostname aw_dev aw_dev.image:demo.automation
+# Remove Image
+docker rmi aw_dev.image:demo.automation

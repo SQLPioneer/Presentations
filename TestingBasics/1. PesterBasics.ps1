@@ -9,16 +9,14 @@ $password = $mycred.GetNetworkCredential().Password
 import-module Pester
 
 Describe "a thing" {
-
     Context "thing is shiny" {
-        It "is true" {
+        It "true is true" {
             $true | should be $true
         }
     }
 }
 
-
-$results = Invoke-Sqlcmd -Server $EnvName -Database $Database -Username sa -Password $password `
+Invoke-Sqlcmd -Server $EnvName -Username sa -Password $password `
 -Query "SELECT name, cmptlevel, filename FROM master.sys.sysdatabases WHERE name = 'AdventureWorks'" `
 | Out-GridView
 
@@ -39,10 +37,19 @@ Describe "Running SQL Tests on $EnvName for database $Database" {
   }
 }
 
-".\RunTests.psm1" | Import-Module -Force
+"Pres:\TestingBasics\RunTests.psm1" | Import-Module -Force
 Invoke-DatabaseTesting  `
     -Server 'aw_dev' `
     -Database 'AdventureWorks' `
     -Credential $mycred `
-    -TestDirectory '.\AdventureWorks'  `
+    -TestDirectory 'Pres:\TestingBasics\AdventureWorks\'  `
     -Filter 'AdventureWorks database exists.1.sql'
+
+Invoke-DatabaseTesting  `
+    -Server 'aw_dev' `
+    -Database 'AdventureWorks' `
+    -Credential $mycred `
+    -TestDirectory 'Pres:\TestingBasics\AdventureWorks\'
+
+
+invoke-pester -Script "Pres:\TestingBasics\AdventureWorks" -OutputFile TestResults.xml -OutputFormat NUnitXml
