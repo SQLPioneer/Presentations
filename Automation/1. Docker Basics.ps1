@@ -1,3 +1,4 @@
+https://docs.docker.com/engine/reference/commandline/docker/
 
 "Pres:\Helper.psm1" | Import-Module
 $mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
@@ -22,16 +23,18 @@ docker run -d `
 # --hostname is a network alias
 # -v is volume path outside container:Inside container
 # -e Environment variable that accepts a list of databases to attach upon startup
+# --rm Remove container when stopped
 docker run -d `
     -p 1402:1433 `
-    --name sql2 `
-    --hostname sql2 `
+    --name aw_preprod `
+    --hostname aw_preprod `
     -e sa_password=$Password `
     -e ACCEPT_EULA=Y `
     -v C:/data/backup/:C:/backup/ `
     -v C:/data/Scripts/:C:/scripts/ `
     -v C:/docker/Adv/data/:C:/data/ `
     -e attach_dbs="[{'dbName':'AdventureWorks','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\AdventureWorks2017_log.ldf']}]" `
+    --rm
     microsoft/mssql-server-windows-developer
 
 # connect to running container
@@ -50,6 +53,8 @@ function reset ($container) {
 
 reset sql2
 
+Pres:\Automation\EnvCreation\CreateEnvironments.ps1
+Pres:\Automation\EnvCreation\CreateDevImage.ps1
 # Create container from existing image
 docker run -d -p 1425:1433 --name aw_dev --hostname aw_dev aw_dev.image:demo.automation
 # Remove Image

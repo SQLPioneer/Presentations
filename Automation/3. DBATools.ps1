@@ -3,7 +3,7 @@ https://dbatools.io/commands/
 Import-Module dbatools
 "Pres:\Helper.psm1" | Import-Module
 
-Get-Command -Module DBAChecks | OGV
+Get-Command -Module dbatools | Out-GridView
 
 $SqlCred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
 
@@ -27,6 +27,7 @@ $ViewName = "vStoreWithDemographics"
 $View1 = $Views | where Name -eq "$ViewName" 
 $View1 | Get-Member | ogv
 $View1.TextBody | Out-File -FilePath c:\temp\$ViewName.sql
+edit c:\temp\$ViewName.sql
 
 New-DbaAgentJob -SqlInstance $ServerInstance -Job 'Adams Test Job'
 New-DbaAgentJobStep -SqlInstance $ServerInstance -Job 'Adams Test Job' -StepId 1 -StepName "Run Something" -Subsystem "TransactSql" -Command "select @@Servername" -Database master

@@ -20,6 +20,8 @@ docker run -d `
     microsoft/mssql-server-windows-developer
 #        -e attach_dbs="[{'dbName':'FIFA','dbFiles':['C:\\data\\FIFA.mdf','C:\\data\\FIFA_log.ldf']},{'dbName':'AdventureWorks2017','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\AdventureWorks2017_log.ldf']}]" `
 
+import-module dbatools
+
 Write-Host "Backup Production Database AdventureWorks" -ForegroundColor Green
 Backup-DbaDatabase `
     -SqlInstance $Prod `
