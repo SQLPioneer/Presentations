@@ -25,5 +25,5 @@ Invoke-DbcCheck -SqlInstance localhost -Check MaintenanceSolution
 Invoke-DbcCheck -SqlInstance localhost -Check Server
 
 
-Invoke-DbcCheck -TestName SuspectPage, LastBackup -OutputFormat NUnitXml -OutputFile data:\tests.txt
+Invoke-DbcCheck -TestName SuspectPage, LastBackup -OutputFormat NUnitXml -OutputFile data:\tests.xml
 
