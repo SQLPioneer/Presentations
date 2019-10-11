@@ -1,5 +1,7 @@
-$Prod = "aw_server"
+$Prod = "localhost,1402"
 $HostName = "aw_preprod"
+$ConnectProd = "localhost,1402"
+$ConnectPreProd = "localhost,1403"
 
 "Pres:\Helper.psm1" | Import-Module
 Write-Host "$HostName" -BackgroundColor Blue
@@ -24,7 +26,7 @@ import-module dbatools
 
 Write-Host "Backup Production Database AdventureWorks" -ForegroundColor Green
 Backup-DbaDatabase `
-    -SqlInstance $Prod `
+    -SqlInstance $ConnectProd `
     -SqlCredential $mycred `
     -Database AdventureWorks `
     -Path c:\backup\ `
@@ -38,13 +40,22 @@ Write-Progress -Activity "Waiting 20 seconds for server to start" -Status "Sleep
 Start-Sleep -Seconds 20
 Write-Host "Restore AdventureWorks from Production" -ForegroundColor Green
 Restore-DbaDatabase `
-    -SqlInstance $HostName `
+    -SqlInstance $ConnectPreProd `
     -SqlCredential $mycred `
     -Path c:\backup\AdventureWorks.bak `
     -DatabaseName AdventureWorks `
     -DestinationDataDirectory c:\data\ `
     -DestinationLogDirectory c:\data
     
+Invoke-Sqlcmd -ServerInstance $connectionPreProd `
+-Username sa `
+-Password $password `
+-Query "sp_dropserver @@servername;  
+GO  
+sp_addserver aw_preprod, local;  
+GO  "
+docker restart $HostName
+
 # Write-Host "Attached" -ForegroundColor Green
 # Get-DbaDatabase -SqlInstance $HostName -ExcludeSystem -SqlCredential $mycred | select Name
 # Invoke-Sqlcmd -ServerInstance $HostName -Database master -Username sa -Password $password -Query  "SELECT * FROM master.sys.databases" | Select-Object -ExpandProperty name
@@ -53,19 +64,19 @@ Restore-DbaDatabase `
 # Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tags Database -Database AdventureWorks,FIFA -ExcludeCheck Duplicateindex, RecoveryModel, LastDiffBackup, ValidDatabaseOwner,InvalidDatabaseOwner,LastGoodCheckDb, LastLogBackup
 # Invoke-DbcCheck -SqlInstance $HostName -SqlCredential $mycred -Tags Database -ExcludeCheck Duplicateindex, RecoveryModel, LastDiffBackup, ValidDatabaseOwner,InvalidDatabaseOwner,LastGoodCheckDb, LastLogBackup
 $Check = @{
-    "SqlInstance"=$HostName 
-    "SqlCredential"=$mycred 
+    "SqlInstance"=$ConnectPreProd
+    "SqlCredential"=$mycred
     "Tags"="InstanceConnection" 
 }
 Invoke-DbcCheck @Check -PassThru | Update-DbcPowerBiDataSource
 $Check = @{
-    "SqlInstance"=$HostName 
+    "SqlInstance"=$ConnectPreProd 
     "SqlCredential"=$mycred 
     "Tags"="DatabaseExists" 
 }
 Invoke-DbcCheck @Check -Database AdventureWorks,FIFA -PassThru | Update-DbcPowerBiDataSource -Append
 $Check = @{
-    "SqlInstance"=$HostName 
+    "SqlInstance"=$ConnectPreProd
     "SqlCredential"=$mycred 
     "Tags"="Database" 
     "ExcludeCheck"="Duplicateindex, RecoveryModel, LastDiffBackup, ValidDatabaseOwner,InvalidDatabaseOwner,LastGoodCheckDb, LastLogBackup"

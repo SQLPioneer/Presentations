@@ -1,5 +1,6 @@
 # $Prod = "aw_server"
 $EnvName = "aw_dev"
+$Connect = "localhost,1420"
 
 "Pres:\Helper.psm1" | Import-Module
 Write-Host "Starting $EnvName" -BackgroundColor Blue
@@ -27,19 +28,19 @@ if ($result -ne $EnvName) {
     Start-Sleep -Seconds 20
     Write-Host "Restore AdventureWorks from Production" -ForegroundColor Green
     Restore-DbaDatabase `
-        -SqlInstance $EnvName `
+        -SqlInstance $Connect `
         -SqlCredential $mycred `
         -Path c:\backup\AdventureWorks.bak `
         -DatabaseName AdventureWorks `
         -DestinationDataDirectory c:\data\ `
         -DestinationLogDirectory c:\data
 
-    Invoke-Sqlcmd -ServerInstance $EnvName -Database master -Username sa -Password $password -InputFile C:\data\Scripts\cmd.sql
-    Invoke-Sqlcmd -ServerInstance $EnvName -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\FixSidOwner.sql"
-    Invoke-Sqlcmd -ServerInstance $EnvName -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\SetClrEnabled.sql"
-    Invoke-Sqlcmd -ServerInstance $EnvName -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\tSQLt.class.sql"
+    Invoke-Sqlcmd -ServerInstance $Connect -Database master -Username sa -Password $password -InputFile C:\data\Scripts\cmd.sql
+    Invoke-Sqlcmd -ServerInstance $Connect -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\FixSidOwner.sql"
+    Invoke-Sqlcmd -ServerInstance $Connect -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\SetClrEnabled.sql"
+    Invoke-Sqlcmd -ServerInstance $Connect -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\tSQLt.class.sql"
     
-    Invoke-Sqlcmd -ServerInstance $EnvName -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\RunAllTests.sql" | Select-Object -ExpandProperty xml* | out-file c:\data\results.xml
+    Invoke-Sqlcmd -ServerInstance $Connect -Database AdventureWorks -Username sa -Password $password -InputFile "C:\data\Scripts\RunAllTests.sql" | Select-Object -ExpandProperty xml* | out-file c:\data\results.xml
 #    $result[0] | out-file C:\temp\results.xml
 
     Docker stop $EnvName

@@ -1,5 +1,6 @@
 
 $HostName = "aw_Server"
+$connectionProd = 'localhost,1402'
 $result = docker start $HostName
 if ($result -ne $HostName) {
     "Pres:\Helper.psm1" | Import-Module
@@ -26,6 +27,12 @@ if ($result -ne $HostName) {
 
 Write-Progress -Activity "Waiting 30 seconds for server to start" -Status "Sleeping"  
 Start-Sleep -Seconds 30
-$configPath = ".\$HostName.DbcConfig.json"
-Import-DbcConfig -Path $configPath
-Invoke-DbcCheck -Tag InstanceConnection -SqlInstance $HostName -SqlCredential $mycred
+#$configPath = ".\$HostName.DbcConfig.json"
+#Import-DbcConfig -Path $configPath
+#Invoke-DbcCheck -Tag InstanceConnection -SqlInstance $connection -SqlCredential $mycred
+Invoke-Sqlcmd -ServerInstance $connectionProd -Username sa -Password $password -Query "sp_dropserver @@servername;  
+GO  
+sp_addserver aw_server, local;  
+GO  "
+docker restart $HostName
+Invoke-Sqlcmd -ServerInstance $connectionProd -Database 'AdventureWorks' -Username sa -Password $password -Query "select @@SERVERNAME, DB_NAME()"

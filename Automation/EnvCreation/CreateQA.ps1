@@ -1,5 +1,6 @@
 # $Prod = "aw_server"
 $EnvName = "aw_qa"
+$Connect = "localhost,1410"
 $result = docker start $EnvName
 if ($result -ne $EnvName) {
     "Pres:\Helper.psm1" | Import-Module
@@ -7,7 +8,7 @@ if ($result -ne $EnvName) {
     $mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
     $password = $mycred.GetNetworkCredential().Password
 
-    Write-Host "Create Preproduction Container" -ForegroundColor Green
+    Write-Host "Create Test Container" -ForegroundColor Green
     docker run -d `
         -p 1410:1433 `
         --name $EnvName `
@@ -26,14 +27,14 @@ if ($result -ne $EnvName) {
     Start-Sleep -Seconds 20
     Write-Host "Restore AdventureWorks from Production" -ForegroundColor Green
     Restore-DbaDatabase `
-        -SqlInstance $EnvName `
+        -SqlInstance $Connect `
         -SqlCredential $mycred `
         -Path c:\backup\AdventureWorks.bak `
         -DatabaseName AdventureWorks `
         -DestinationDataDirectory c:\data\ `
         -DestinationLogDirectory c:\data
 
-    Invoke-Sqlcmd -ServerInstance "localhost,1410" -Database master -Username sa -Password $password -InputFile C:\data\Scripts\cmd.sql
+    Invoke-Sqlcmd -ServerInstance $Connect -Database master -Username sa -Password $password -InputFile C:\data\Scripts\cmd.sql
 
     Docker stop $EnvName
     Docker commit $EnvName "$EnvName.image:demo.automation"
