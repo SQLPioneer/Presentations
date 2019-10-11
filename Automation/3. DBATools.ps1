@@ -8,9 +8,11 @@ Get-Command -Module dbatools | Out-GridView
 $SqlCred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
 
 $ServerInstance = "localhost"
-Get-DbaDatabase -SqlCredential $SqlCred -SqlInstance $ServerInstance | ogv
+#Get-DbaDatabase -SqlCredential $SqlCred -SqlInstance $ServerInstance | ogv
+Get-DbaDatabase -SqlInstance $ServerInstance | ogv
 
-Backup-DbaDatabase -SqlCredential $SqlCred -SqlInstance $ServerInstance -Path "c:\data\backup\"  -Type Diff
+Backup-DbaDatabase -SqlInstance $ServerInstance -Path "c:\data\backup\"  -Type Full
+Backup-DbaDatabase -SqlInstance $ServerInstance -Path "c:\data\backup\"  -Type Diff
 
 # Write out the text of the view to a file
 $DB = "AdventureWorks2017"
@@ -23,7 +25,7 @@ $Tables | where name -eq 'Customer' | select Columns | get-member | ogv
 
 $Views = Get-DbaDbView -SqlInstance $ServerInstance -Database $DB -ExcludeSystemView
 $Views | ogv
-$ViewName = "vStoreWithDemographics"
+$ViewName = "vVendorWithAddresses"
 $View1 = $Views | where Name -eq "$ViewName" 
 $View1 | Get-Member | ogv
 $View1.TextBody | Out-File -FilePath c:\temp\$ViewName.sql
