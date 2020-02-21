@@ -6,6 +6,7 @@ $password = $mycred.GetNetworkCredential().Password
 
 # download SQL Server 2017 Developer Container
 docker pull microsoft/mssql-server-windows-developer:2017-CU1
+docker pull microsoft/mssql-server-windows-developer
 
 # Fields required to start docker container
 # -p Ports
