@@ -5,7 +5,8 @@ Import-Module dbatools
 
 Get-Command -Module dbatools | Out-GridView
 
-$SqlCred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+#$SqlCred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$mycred = Import-Clixml -Path Data:\mycred.xml
 
 $ServerInstance = "localhost"
 #Get-DbaDatabase -SqlCredential $SqlCred -SqlInstance $ServerInstance | ogv

@@ -5,7 +5,8 @@ function Load-Config {
     #     retrieve password from encrypted file
     $pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
     # build the PSCredential object
-    $mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+    # $mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+    $mycred = Import-Clixml -Path Data:\mycred.xml
     # Create hash table to hold my configuration parameters 
     $Config = @{
         "ServerInstance"="localhost,1401"

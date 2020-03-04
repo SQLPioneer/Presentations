@@ -1,6 +1,7 @@
 $EnvName = "aw_dev"
 "Pres:\Helper.psm1" | Import-Module
-$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+# $mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$mycred = Import-Clixml -Path Data:\mycred.xml
 $password = $mycred.GetNetworkCredential().Password
 
 # Install-Module dbachecks

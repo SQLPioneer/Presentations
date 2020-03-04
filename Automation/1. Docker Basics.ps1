@@ -1,7 +1,8 @@
 https://docs.docker.com/engine/reference/commandline/docker/
 
 "Pres:\Helper.psm1" | Import-Module
-$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+#$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$mycred = Import-Clixml -Path Data:\mycred.xml
 $password = $mycred.GetNetworkCredential().Password
 
 # download SQL Server 2017 Developer Container
