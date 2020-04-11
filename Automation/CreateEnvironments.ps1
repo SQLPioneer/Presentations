@@ -2,9 +2,10 @@
 Import-Module dbatools
 Write-Host "Start Script" -BackgroundColor Blue
 Write-Host "Read password from secure file" -ForegroundColor Green
-$pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
-Write-Host "Build the PSCredential object for setting passwords" -ForegroundColor Green
-$mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+#$pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
+#Write-Host "Build the PSCredential object for setting passwords" -ForegroundColor Green
+#$mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+$mycred = Import-Clixml -Path Data:\mycred.xml
 $password = $mycred.GetNetworkCredential().Password
 
 Write-Host "Create Production Container" -ForegroundColor Green
@@ -42,7 +43,6 @@ Start-Sleep -Seconds 40
 Write-Host "Restore AdventureWorks from Production" -ForegroundColor Green
 Restore-DbaDatabase `
     -SqlInstance "localhost,1403" `
-    --hostname qa11 `
     -SqlCredential $mycred `
     -Path c:\backup\AdventureWorks.bak `
     -DatabaseName AdventureWorks `

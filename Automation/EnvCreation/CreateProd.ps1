@@ -6,9 +6,10 @@ if ($result -ne $HostName) {
     "Pres:\Helper.psm1" | Import-Module
     Write-Host "Starting $HostName" -BackgroundColor Blue
     Write-Host "Read password from secure file" -ForegroundColor Green
-    $pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
-    Write-Host "Build the PSCredential object for setting passwords" -ForegroundColor Green
-    $mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+    # $pwd = Get-SecurePassword -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key
+    # Write-Host "Build the PSCredential object for setting passwords" -ForegroundColor Green
+    # $mycred = New-Object System.Management.Automation.PSCredential("sa",$pwd)
+    $mycred = Import-Clixml -Path Data:\mycred.xml
     $password = $mycred.GetNetworkCredential().Password
 
     Write-Host "Create Production Container" -ForegroundColor Green

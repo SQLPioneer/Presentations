@@ -19,7 +19,8 @@ Set-Location Pres:
 # New-KeyFile -KeyFile Data:\MyKey.key -KeySize 16
 #     (2) Create our password file
 # New-PasswordFile -PwdFile Data:\MyPwd.txt -Key (Get-Content Data:\MyKey.key)
-$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+# $mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$mycred = Import-Clixml -Path Data:\mycred.xml
 $password = $mycred.GetNetworkCredential().Password
  
 # Create variables to hole my SQLCMD parameters

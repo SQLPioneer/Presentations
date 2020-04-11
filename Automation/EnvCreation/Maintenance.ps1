@@ -1,6 +1,7 @@
 $HostName = "aw_preprod"
 "Pres:\Helper.psm1" | Import-Module
-$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+# $mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
+$mycred = Import-Clixml -Path Data:\mycred.xml
 
 Backup-DbaDatabase -SqlInstance $HostName -SqlCredential $mycred 
 
