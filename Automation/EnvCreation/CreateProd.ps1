@@ -23,7 +23,7 @@ if ($result -ne $HostName) {
         -v C:/data/Scripts/:C:/scripts/ `
         --hostname $HostName `
         -e attach_dbs="[{'dbName':'AdventureWorks','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\AdventureWorks2017_log.ldf']}]" `
-        microsoft/mssql-server-windows-developer
+        mcr.microsoft.com/mssql/server:2019-latest
 }
 
 Write-Progress -Activity "Waiting 30 seconds for server to start" -Status "Sleeping"  

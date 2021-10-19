@@ -5,9 +5,11 @@ https://docs.docker.com/engine/reference/commandline/docker/
 $mycred = Import-Clixml -Path Data:\mycred.xml
 $password = $mycred.GetNetworkCredential().Password
 
+# download SQL Server 2019 Developer Container
+docker pull mcr.microsoft.com/mssql/server:2019-latest
 # download SQL Server 2017 Developer Container
-docker pull microsoft/mssql-server-windows-developer:2017-CU1
-docker pull microsoft/mssql-server-windows-developer
+docker pull mcr.microsoft.com/mssql/server:2017-latest
+
 
 # Fields required to start docker container
 # -p Ports
@@ -15,10 +17,10 @@ docker pull microsoft/mssql-server-windows-developer
 # -e Environment variable for accepting the license agreement
 # image name 
 docker run -d `
-    -p 1402:1433 `
-    -e sa_password=$Password `
+    -p 1433:1433 `
+    -e SA_PASSWORD=$password `
     -e ACCEPT_EULA=Y `
-    microsoft/mssql-server-windows-developer
+    mcr.microsoft.com/mssql/server:2019-latest
 
 # Optional parameters used to start container
 # --name is the container name
@@ -27,17 +29,22 @@ docker run -d `
 # -e Environment variable that accepts a list of databases to attach upon startup
 # --rm Remove container when stopped
 docker run -d `
-    -p 1402:1433 `
+    -p 1433:1433 `
     --name aw_preprod `
     --hostname aw_preprod `
-    -e sa_password=$Password `
+    -e SA_PASSWORD=$Password `
     -e ACCEPT_EULA=Y `
-    -v C:/data/backup/:C:/backup/ `
-    -v C:/data/Scripts/:C:/scripts/ `
-    -v C:/docker/Adv/data/:C:/data/ `
-    -e attach_dbs="[{'dbName':'AdventureWorks','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\AdventureWorks2017_log.ldf']}]" `
-    --rm
-    microsoft/mssql-server-windows-developer
+    -v aw_preprod_backup:/var/opt/mssql/backup `
+    --rm `
+    mcr.microsoft.com/mssql/server:2019-latest
+
+docker exec -it aw_preprod mkdir /var/opt/mssql/backup
+    
+docker cp C:\data\Backup\WideWorldImporters-Full.bak aw_preprod:/var/opt/mssql/backup
+
+Restore-DbaDatabase -SqlInstance localhost -SqlCredential $mycred -Path /var/opt/mssql/backup/WideWorldImporters-Full.bak -DatabaseName WWI
+
+    -e attach_dbs="[{'dbName':'AdventureWorks','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\data\\AdventureWorks2017_log.ldf']}]" `
 
 # connect to running container
 docker exec -it aw_preprod powershell

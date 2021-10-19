@@ -20,7 +20,7 @@ docker run -d `
     -v C:/data/Scripts/:C:/scripts/ `
     -v C:/docker/PreProd/data/:C:/data/ `
     -e attach_dbs="[{'dbName':'FIFA','dbFiles':['C:\\data\\FIFA.mdf','C:\\data\\FIFA_log.ldf']}]" `
-    microsoft/mssql-server-windows-developer
+    mcr.microsoft.com/mssql/server:2019-latest
 #        -e attach_dbs="[{'dbName':'FIFA','dbFiles':['C:\\data\\FIFA.mdf','C:\\data\\FIFA_log.ldf']},{'dbName':'AdventureWorks2017','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\AdventureWorks2017_log.ldf']}]" `
 
 import-module dbatools
