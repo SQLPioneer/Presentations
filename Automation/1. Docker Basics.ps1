@@ -16,7 +16,7 @@ docker pull mcr.microsoft.com/mssql/server:2017-latest
 # -e environment variable for the sa password
 # -e Environment variable for accepting the license agreement
 # image name 
-docker run -d `
+docker run `
     -p 1433:1433 `
     -e SA_PASSWORD=$password `
     -e ACCEPT_EULA=Y `
