@@ -1,4 +1,4 @@
-https://docs.docker.com/engine/reference/commandline/docker/
+# https://docs.docker.com/engine/reference/commandline/docker/
 
 "Pres:\Helper.psm1" | Import-Module
 #$mycred = Get-PSCredential -PwdFile Data:\MyPwd.txt -KeyFile Data:\MyKey.key -User sa
@@ -44,9 +44,8 @@ docker cp C:\data\Backup\WideWorldImporters-Full.bak aw_preprod:/var/opt/mssql/b
 
 Restore-DbaDatabase -SqlInstance localhost -SqlCredential $mycred -Path /var/opt/mssql/backup/WideWorldImporters-Full.bak -DatabaseName WWI
 
-    -e attach_dbs="[{'dbName':'AdventureWorks','dbFiles':['C:\\data\\AdventureWorks2017.mdf','C:\\data\\data\\AdventureWorks2017_log.ldf']}]" `
-
 # connect to running container
+docker exec -it aw_preprod /bin/bash
 docker exec -it aw_preprod powershell
 
 function reset ($container) { 
