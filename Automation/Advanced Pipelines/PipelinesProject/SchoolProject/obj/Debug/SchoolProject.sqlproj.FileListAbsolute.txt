@@ -1,0 +1,10 @@
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\bin\Debug\SchoolProject.dacpac
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\bin\Debug\SchoolProject.dll
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\bin\Debug\SchoolProject.pdb
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\SchoolProject.sqlprojAssemblyReference.cache
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\Model.xml
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\refactor.xml
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\postdeploy.sql
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\predeploy.sql
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\SchoolProject.dll
+C:\git\GitHub\Presentations\Automation\Advanced Pipelines\PipelinesProject\SchoolProject\obj\Debug\SchoolProject.pdb

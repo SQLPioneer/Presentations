@@ -19,7 +19,7 @@ if ($result -ne $EnvName) {
         -e ACCEPT_EULA=Y `
         -v C:/data/backup/:C:/backup/ `
         -v C:/data/Scripts/:C:/scripts/ `
-        microsoft/mssql-server-windows-developer
+        mcr.microsoft.com/mssql/server:2019-latest
 
     Write-Host "There is no external Data directory mapped to this container" -ForegroundColor Green
     Write-Host "Create a Data directory inside this container" -ForegroundColor Green
